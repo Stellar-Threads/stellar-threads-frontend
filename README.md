@@ -67,6 +67,11 @@ The frontend communicates with deployed and verified Soroban contracts on Stella
 - Direct XLM payment interface with recipient checksum validation, stroop precision limits, and memo support.
 - One-click Testnet Friendbot funding button for instant 10,000 XLM test balance.
 
+### 7. Production Financing
+- Explore curated sustainable fashion production campaigns (e.g., Mulberry Silk and Organic Indigo Denim).
+- View funding progress, minimum milestone thresholds, deadlines, and repayment commitments.
+- Multi-wallet contribution and campaign tracking with fixed-precision arithmetic.
+
 ---
 
 ## Technology Stack
@@ -117,6 +122,12 @@ To interact with the Stellar Threads dApp on Stellar Testnet:
 3. Click **"Create Escrow Order"**.
 4. Use **"Fund Order"**, **"Release Funds"**, or **"Refund Order"** depending on your authorized role.
 
+### Backing a Production Financing Campaign
+1. Open the **Production Financing** tab.
+2. Review active campaigns and target funding thresholds.
+3. Enter contribution amount in XLM.
+4. Click **"Contribute to Batch"** and sign with your connected wallet.
+
 ---
 
 ## Local Development & Testing
@@ -147,6 +158,14 @@ npm run build
 
 ---
 
+## Community & Governance
+
+- **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **Contributing Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Security Policy:** [SECURITY.md](SECURITY.md)
+
+---
+
 ## Known Limitations
 
 - **Physical Authenticity:** Cryptographic digital product passports prove that the record was created by the brand and is unchanged. They do not replace trusted physical tags (e.g., tamper-proof NFC chips) for counterfeit detection.
@@ -157,3 +176,4 @@ npm run build
 ## License
 
 Stellar Threads Frontend is licensed under the [Apache-2.0 License](LICENSE).
+
