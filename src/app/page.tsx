@@ -13,6 +13,7 @@ import { TransactionActivity } from '../components/history/TransactionActivity';
 import { DesignerRegistrySection } from '../components/designer/DesignerRegistrySection';
 import { ProductPassportSection } from '../components/passport/ProductPassportSection';
 import { FashionEscrowSection } from '../components/escrow/FashionEscrowSection';
+import { ProductionFinancingSection } from '../components/financing/ProductionFinancingSection';
 import { RealtimeActivitySection } from '../components/events/RealtimeActivitySection';
 import { AlertBanner } from '../components/common/AlertBanner';
 import { useStellarWallet } from '../hooks/useStellarWallet';
@@ -28,6 +29,7 @@ import {
   Coins,
   Activity,
   Send,
+  TrendingUp,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -68,7 +70,7 @@ export default function HomePage() {
   } = useTransactionHistory(userAddress);
 
   const [activeTab, setActiveTab] = useState<
-    'all' | 'designers' | 'passports' | 'escrow' | 'events' | 'payments'
+    'all' | 'designers' | 'passports' | 'escrow' | 'financing' | 'events' | 'payments'
   >('all');
 
   const isConnected = walletStatus === 'connected' && !!userAddress;
@@ -210,6 +212,17 @@ export default function HomePage() {
               Fashion Escrow
             </button>
             <button
+              onClick={() => setActiveTab('financing')}
+              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
+                activeTab === 'financing'
+                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
+                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5" />
+              Production Financing
+            </button>
+            <button
               onClick={() => setActiveTab('events')}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'events'
@@ -301,6 +314,13 @@ export default function HomePage() {
                 walletId={selectedWalletId}
                 isConnected={isConnected}
               />
+            </div>
+          )}
+
+          {/* Module 4.5: Production Financing */}
+          {(activeTab === 'all' || activeTab === 'financing') && (
+            <div id="financing">
+              <ProductionFinancingSection walletAddress={userAddress} />
             </div>
           )}
 

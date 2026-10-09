@@ -2,6 +2,7 @@
 
 > **From design to ownership, powered by Stellar.**
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c1442e48-b030-48c7-b5b4-4593d9422441/deploy-status)](https://app.netlify.com/projects/stellar-threads-app/deploys)
 [![Frontend CI](https://github.com/Stellar-Threads/stellar-threads-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Stellar-Threads/stellar-threads-frontend/actions)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Stellar Network](https://img.shields.io/badge/Network-Stellar_Testnet-gold.svg)](https://stellar.expert/explorer/testnet)
@@ -12,6 +13,15 @@ This repository (`stellar-threads-frontend`) contains the luxury fashion-finance
 
 ---
 
+## Live Deployments & Testnet Infrastructure
+
+- **Production Web Application (Netlify)**: [https://stellar-threads-app.netlify.app](https://stellar-threads-app.netlify.app)
+- **Target Network**: Stellar Testnet (`Test SDF Network ; September 2015`)
+- **Soroban RPC**: `https://soroban-testnet.stellar.org`
+- **Horizon Server**: `https://horizon-testnet.stellar.org`
+
+---
+
 ## Live Smart Contracts (Stellar Testnet)
 
 The frontend communicates with deployed and verified Soroban contracts on Stellar Testnet:
@@ -19,8 +29,9 @@ The frontend communicates with deployed and verified Soroban contracts on Stella
 | Contract | Address | Explorer |
 |---|---|---|
 | **Designer Registry** | `CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR) |
-| **Product Passport Registry** | `CAJLI5PXVPQWOY4C2MCG7GII37IORAP4PL5AVX7GSOCUV6FH5FTW2E4U` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CAJLI5PXVPQWOY4C2MCG7GII37IORAP4PL5AVX7GSOCUV6FH5FTW2E4U) |
+| **Product Passport Registry** | `CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL) |
 | **Fashion Escrow** | `CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D) |
+| **Production Financing** | `CAIK2L6D272O6RZA23LRL3QSHLDVXNZXD6BKXCYNEL6R35IEG3YXES3M` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CAIK2L6D272O6RZA23LRL3QSHLDVXNZXD6BKXCYNEL6R35IEG3YXES3M) |
 
 ---
 
