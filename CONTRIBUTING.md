@@ -1,47 +1,132 @@
-# Contributing to Stellar Threads
+# Contributing to Stellar Threads Frontend
 
-Thank you for your interest in contributing to Stellar Threads! We welcome code contributions, issue reports, documentation improvements, and architectural discussions.
+Thank you for your interest in contributing to **Stellar Threads Frontend**, the luxury fashion-finance portal powered by Stellar and Soroban smart contracts!
+
+---
 
 ## Code of Conduct
 
-All contributors and participants agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+All contributors and community members are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md). Please maintain a welcoming, respectful, and inclusive environment.
 
-## Development Workflow
+---
 
-1. Fork the repository and clone your fork locally.
-2. Create a feature branch with a descriptive name:
+## Architecture Overview
+
+```
+stellar-threads-frontend/
+├── src/
+│   ├── app/                    # Next.js App Router (Layout & Pages)
+│   ├── components/
+│   │   ├── brand/              # Protocol branding, hero banner & roadmap
+│   │   ├── designer/           # Atelier registration & status verification
+│   │   ├── passport/           # Digital Product Passport minting & hash verification
+│   │   ├── escrow/             # B2B fashion orders & escrow lifecycle management
+│   │   ├── events/             # Real-time SSE contract event stream & filters
+│   │   ├── layout/             # Navigation, luxury header, network badge
+│   │   ├── payment/            # Stage 1 XLM transfer form (preserved)
+│   │   └── wallet/             # Multi-wallet selector modal & balance cards
+│   ├── config/                 # Deployed Soroban contracts & network endpoints
+│   ├── hooks/                  # React hooks (useStellarWallet, useTransactionHistory)
+│   ├── lib/
+│   │   ├── stellar/            # Horizon queries & Soroban contract invocations
+│   │   └── wallet/             # StellarWalletsKit multi-wallet manager
+│   └── types/                  # Typed interfaces for wallets, orders, passports
+└── src/__tests__/              # Vitest component and logic test suites
+```
+
+---
+
+## Local Development Setup
+
+1. **Clone and Install**:
    ```bash
-   git checkout -b feat/your-feature-name
-   ```
-3. Install dependencies:
-   ```bash
+   git clone https://github.com/Stellar-Threads/stellar-threads-frontend.git
+   cd stellar-threads-frontend
    npm install
    ```
-4. Verify tests and typechecking:
+
+2. **Environment Configuration**:
+   Copy `.env.example` to `.env.local`:
    ```bash
-   npm run typecheck
-   npm test
+   cp .env.example .env.local
    ```
-5. Commit your changes using conventional commit standards:
-   - `feat:` for new capabilities
-   - `fix:` for bug fixes
-   - `docs:` for documentation updates
-   - `test:` for test additions or modifications
-   - `refactor:` for code restructurings without behavior changes
-6. Push to your fork and submit a Pull Request targeting the `main` branch.
+   Ensure `NEXT_PUBLIC_STELLAR_NETWORK=TESTNET` is active.
 
-## Recommended Labels
+3. **Run Development Server**:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-When opening issues or labeling pull requests, use the following standard taxonomy:
-- `good first issue`: Ideal for newcomers
-- `help wanted`: Tasks seeking community collaboration
-- `frontend`: User interface, hooks, and React components
-- `backend`: Services, routes, and API contracts
-- `stellar`: Stellar SDK, Horizon queries, and Testnet integration
-- `soroban`: Smart contract development and Rust tooling
-- `testing`: Unit, integration, and E2E test suites
-- `documentation`: READMEs, protocol specifications, and guides
+---
+
+## Testing & Quality Assurance
+
+Always verify your changes before submitting a PR:
+
+```bash
+# Run test suites
+npm test
+
+# Run TypeScript compiler checks
+npm run typecheck
+
+# Run linter
+npm run lint
+
+# Verify production Turbopack build
+npm run build
+```
+
+---
+
+## Multi-Wallet Testing Guidelines
+
+When testing wallet interactions:
+- Connect using **Freighter** (browser extension) or **Albedo** (web pop-up).
+- Ensure your wallet is configured for **Stellar Testnet**.
+- Never commit secret keys or seed phrases into the codebase.
+- Verify that disconnecting or switching accounts immediately resets UI states.
+
+---
+
+## Recommended Issue and PR Labels
+
+| Label | Description |
+|---|---|
+| `good first issue` | Great entry points for first-time contributors |
+| `help wanted` | Complex issues where external input is appreciated |
+| `frontend` | React components, UI/UX, and Tailwind CSS styles |
+| `wallet` | StellarWalletsKit and provider connection logic |
+| `soroban` | Soroban contract invocation & transaction signing |
+| `stellar` | Horizon API, payment envelopes, and ledger state |
+| `testing` | Vitest suites, mocks, and interaction tests |
+| `security` | Key handling, input validation, and CSP headers |
+| `documentation` | Guides, diagrams, and README enhancements |
+
+---
+
+## Maintainer Workflow & Issue Triage
+
+1. **Issue Triage:** Issues receive labels and maintainer replies within 48 hours.
+2. **Review Criteria:** All PRs must have passing CI checks (`npm test`, `npm run lint`, `npm run build`), no console errors, and follow clean coding standards.
+3. **Commit Messages:** Use clear, descriptive, professional commit messages without extraneous tags.
+
+---
+
+## Public Roadmap & Opportunities
+
+- [x] Multi-wallet modal supporting Freighter, xBull, Albedo, Lobstr, Rabet, Hana.
+- [x] Atelier designer registration and status retrieval.
+- [x] Digital product passport minting with cryptographic SHA-256 verification.
+- [x] B2B escrow order lifecycle: Create, Fund, Release, Refund.
+- [x] Real-time live contract activity feed via Server-Sent Events (SSE).
+- [ ] WalletConnect v2 integration for mobile QR sign-in.
+- [ ] NFC / QR code scanner for retail garment tag verification.
+- [ ] Multi-sig escrow release with authorized inspection agents.
+
+---
 
 ## Security Disclosures
 
-Please do **not** open public issues for sensitive security vulnerabilities. Follow the reporting instructions in [SECURITY.md](SECURITY.md).
+Do **not** post security vulnerabilities in public issues. Refer to [SECURITY.md](SECURITY.md) for our private vulnerability disclosure process.

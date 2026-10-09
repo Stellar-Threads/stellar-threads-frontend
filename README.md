@@ -1,4 +1,4 @@
-# Stellar Threads — Frontend Client
+# Stellar Threads — Luxury Fashion-Finance Frontend & Soroban dApp
 
 > **From design to ownership, powered by Stellar.**
 
@@ -6,133 +6,140 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Stellar Network](https://img.shields.io/badge/Network-Stellar_Testnet-gold.svg)](https://stellar.expert/explorer/testnet)
 
-Stellar Threads is a global decentralized fashion finance and trade protocol powered by the Stellar blockchain. The protocol establishes an open, transparent, and non-custodial financial rails connecting independent fashion designers, ateliers, sustainable textile mills, apparel manufacturers, suppliers, and global buyers.
+Stellar Threads is a global decentralized fashion finance and trade protocol powered by the Stellar blockchain and Soroban smart contracts. It connects independent fashion designers, ateliers, sustainable textile mills, apparel manufacturers, suppliers, and global luxury buyers through an open, transparent, and non-custodial ecosystem.
 
-This repository (`stellar-threads-frontend`) contains the complete web application, client-side wallet connectors, balance retrieval engine, and operational payment interface for the protocol.
+This repository (`stellar-threads-frontend`) contains the luxury fashion-finance portal featuring **multi-wallet authentication**, **on-chain Soroban contract interactions**, **digital garment passports**, **production escrows**, and **real-time event streaming**.
 
 ---
 
-## Architecture & Ecosystem Relationship
+## Live Smart Contracts (Stellar Testnet)
 
-Stellar Threads is organized into two primary repositories within the [`Stellar-Threads`](https://github.com/Stellar-Threads) organization:
+The frontend communicates with deployed and verified Soroban contracts on Stellar Testnet:
 
-1. **`stellar-threads-frontend` (This Repository)**: Next.js 16 client, Freighter wallet integration, native XLM Testnet settlement, and editorial user experience.
-2. **[`stellar-threads-core`](https://github.com/Stellar-Threads/stellar-threads-core)**: Backend service APIs, shared protocol types, Stellar transaction validation, database indexing schemas, and Soroban smart contract foundations.
+| Contract | Address | Explorer |
+|---|---|---|
+| **Designer Registry** | `CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR) |
+| **Product Passport Registry** | `CAJLI5PXVPQWOY4C2MCG7GII37IORAP4PL5AVX7GSOCUV6FH5FTW2E4U` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CAJLI5PXVPQWOY4C2MCG7GII37IORAP4PL5AVX7GSOCUV6FH5FTW2E4U) |
+| **Fashion Escrow** | `CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D` | [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D) |
 
 ---
 
 ## Key Features
 
-- **Luxury Fashion Editorial Interface**: Refined editorial aesthetic designed specifically for the global fashion trade rather than a generic crypto dashboard.
-- **Genuine Freighter Wallet Integration**: Real browser extension detection, permission authorization, account switching detection, and cryptographic signing.
-- **Live Testnet XLM Balance Queries**: Real-time balance retrieval via official Stellar Testnet Horizon (`https://horizon-testnet.stellar.org`).
-- **Integrated Testnet Friendbot**: One-click testnet faucet activation funding new accounts with 10,000 Testnet XLM directly through the SDF Friendbot API.
-- **Operational Payment Engine**:
-  - Live recipient public key validation with Stellar `StrKey` Ed25519 checksum verification.
-  - Precision limits (up to 7 decimal stroop digits) and dynamic balance deduction checks with 1.0 XLM minimum reserve protection.
-  - Optional memo support adhering to Stellar constraints (Text up to 28 bytes UTF-8, ID uint64, 32-byte hex Hash).
-  - Complete transaction state machine (`Validating` → `Signing with Freighter` → `Submitting to Horizon` → `Confirmed`).
-  - Direct links to [Stellar Expert Testnet Explorer](https://stellar.expert/explorer/testnet).
-- **Dual Transaction Activity**:
-  - Locally tracked session submissions with status, timestamps, and hashes.
-  - Verified on-chain payment history queried directly from Horizon account operations.
-- **Honest Protocol Roadmap**: Clear architectural preview of upcoming modules (Designer Sovereign Identity, Garment Digital Passport, B2B Fashion Escrow, Pre-Order Financing).
+### 1. Multi-Wallet Integration (`StellarWalletsKit`)
+- Connect seamlessly with **Freighter**, **xBull**, **Albedo**, **Lobstr**, **Rabet**, and **Hana**.
+- Automatic network detection, public address display, and balance synchronization.
+- Real-time account switching detection and safe session disconnection without leaving stale data.
+- Zero private key exposure: cryptographic signing delegated entirely to the user's selected wallet.
+
+### 2. Designer & Atelier Registry
+- On-chain designer registration tying a brand's public key to their unique identifier and metadata URI.
+- Live on-chain status querying and profile reference updates.
+- Real-time transaction feedback with verified Stellar Expert transaction links.
+
+### 3. Digital Product Passports (DPP)
+- Issue immutable digital twins for luxury garments with brand metadata and textile composition.
+- Cryptographic SHA-256 integrity verification: guarantees product metadata has never been altered.
+- Transparent disclaimer distinguishing blockchain record integrity from physical garment authentication.
+
+### 4. B2B Fashion Escrow
+- Create milestone-based wholesale and production escrow agreements between buyers and sellers.
+- Non-custodial funding, buyer-authorized release upon garment inspection, and seller-authorized refunds.
+- Complete lifecycle tracking (`Created` → `Funded` → `Released` / `Refunded`) with strict on-chain authorization.
+
+### 5. Real-Time Contract Activity Stream
+- Live contract event feed powered by Server-Sent Events (SSE) from the core indexing service.
+- Categorized filtering for Designer Registrations, Product Passports, and Escrow events.
+- Displays ledger numbers, contract IDs, transaction hashes, and event parameters in real time.
+
+### 6. Preserved Native XLM Settlement & Faucet
+- Direct XLM payment interface with recipient checksum validation, stroop precision limits, and memo support.
+- One-click Testnet Friendbot funding button for instant 10,000 XLM test balance.
 
 ---
 
 ## Technology Stack
 
 - **Framework**: Next.js 16 (App Router) & React 19
-- **Language**: TypeScript 5 (Strict mode)
-- **Styling**: Tailwind CSS 4
-- **Blockchain Tooling**:
-  - `@stellar/freighter-api` (v6.0.1) — Browser wallet connector
-  - `@stellar/stellar-sdk` (v17.2.1) — Horizon client, TransactionBuilder, StrKey
-- **Testing**: Vitest & React Testing Library with JSDOM
+- **Styling**: Tailwind CSS 4 & Vanilla CSS design tokens
+- **Wallet Integration**: `@creit.tech/stellar-wallets-kit` (v2.7.1) & `@stellar/freighter-api` (v6.0.1)
+- **Stellar SDK**: `@stellar/stellar-sdk` (v17.2.1)
 - **Icons**: Lucide React
+- **Testing**: Vitest, React Testing Library, and JSDOM
 
 ---
 
-## Stellar Testnet Configuration
+## Wallet Setup Guide
 
-| Parameter | Value |
-| :--- | :--- |
-| **Network** | Stellar Testnet |
-| **Network Passphrase** | `Test SDF Network ; September 2015` |
-| **Horizon Server** | `https://horizon-testnet.stellar.org` |
-| **Soroban RPC** | `https://soroban-testnet.stellar.org` |
-| **Friendbot Faucet** | `https://friendbot.stellar.org` |
-| **Block Explorer** | `https://stellar.expert/explorer/testnet` |
-| **Base Fee** | 100 stroops (`0.00001 XLM`) |
-| **Minimum Reserve** | `1.0 XLM` (account sequence activation) |
+To interact with the Stellar Threads dApp on Stellar Testnet:
 
-> ⚠️ **Safety Note**: Testnet XLM holds no real monetary value. Secret keys (`S...`) are never collected, stored, or accepted by this application. All authorizations occur securely through the Freighter browser extension.
+1. **Install a Supported Wallet**:
+   - [Freighter Extension](https://www.freighter.app/) (Chrome, Brave, Firefox)
+   - [xBull Wallet](https://xbull.app/)
+   - [Albedo](https://albedo.link/) (No extension required, opens in secure pop-up)
+   - [Lobstr](https://lobstr.co/)
+2. **Switch to Stellar Testnet**:
+   - Open your wallet settings and select **Testnet**.
+3. **Fund Your Account**:
+   - Click the **"Fund with Friendbot (+10,000 XLM)"** button directly in the Stellar Threads navbar or use the [Stellar Laboratory Faucet](https://laboratory.stellar.org/#account-creator).
 
 ---
 
-## Getting Started
+## Contract Interaction Instructions
 
-### Prerequisites
+### Registering an Atelier
+1. Open the **Designer Registry** tab.
+2. Enter your unique Designer ID (e.g., `atelier-valenti`), Brand Name, and IPFS metadata URI.
+3. Click **"Register Atelier on Soroban"**.
+4. Confirm the transaction in your connected wallet.
+5. View the confirmed transaction hash and explorer link.
 
-- Node.js `20.x` or `22.x` or later
-- npm `10.x` or later
-- [Freighter Wallet](https://www.freighter.app/) extension installed in your browser
+### Minting a Product Passport
+1. Open the **Product Passports** tab.
+2. Provide a Product ID (e.g., `garment-001`), Brand ID, Metadata URI, and 32-byte hex SHA-256 digest.
+3. Click **"Mint Product Passport"** and sign with your wallet.
+4. Verify record integrity by inputting the expected hash into the integrity verifier.
 
-### Installation
+### Managing an Escrow Order
+1. Open the **Fashion Escrow** tab.
+2. Enter Order ID, Buyer address, Seller address, and payment amount.
+3. Click **"Create Escrow Order"**.
+4. Use **"Fund Order"**, **"Release Funds"**, or **"Refund Order"** depending on your authorized role.
+
+---
+
+## Local Development & Testing
 
 ```bash
+# Clone the repository
 git clone https://github.com/Stellar-Threads/stellar-threads-frontend.git
 cd stellar-threads-frontend
+
+# Install dependencies
 npm install
-```
 
-### Environment Configuration
-
-Copy the example environment configuration:
-
-```bash
-cp .env.example .env.local
-```
-
-### Development Server
-
-Run the development server locally:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to interact with the application.
-
-### Running Tests
-
-Execute the automated Vitest suite:
-
-```bash
+# Run automated tests
 npm test
-```
 
-### Type Checking
+# Run linter
+npm run lint
 
-```bash
+# Run TypeScript typecheck
 npm run typecheck
-```
 
-### Production Build
+# Start development server
+npm run dev
 
-```bash
+# Build production bundle
 npm run build
-npm start
 ```
 
 ---
 
-## Community & Contribution
+## Known Limitations
 
-We welcome contributions from designers, engineers, and fashion industry participants.
-- Please review [CONTRIBUTING.md](CONTRIBUTING.md) for pull request guidelines and coding conventions.
-- See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for our community standards.
-- View [SECURITY.md](SECURITY.md) for our responsible vulnerability disclosure policy.
+- **Physical Authenticity:** Cryptographic digital product passports prove that the record was created by the brand and is unchanged. They do not replace trusted physical tags (e.g., tamper-proof NFC chips) for counterfeit detection.
+- **Audit Disclaimer:** Contracts have been rigorously tested with automated unit and integration suites on Testnet, but have not undergone an external third-party security firm audit.
 
 ---
 
