@@ -7,11 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@creit.tech/stellar-wallets-kit": "^2.7.1",
     "@stellar/freighter-api": "^6.0.1",
     "@stellar/stellar-sdk": "^17.2.1",
     "clsx": "^2.1.1",

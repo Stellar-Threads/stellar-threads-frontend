@@ -170,7 +170,7 @@ export function WalletStatusCard({
             ) : (
               <div className="text-center py-6 space-y-4">
                 <p className="text-sm text-zinc-300 max-w-md mx-auto">
-                  Freighter extension detected. Connect your account to query live Testnet balances and authorize payments.
+                  Connect your Freighter, xBull, Albedo, or compatible Stellar wallet to query live Testnet balances and authorize Soroban contract interactions.
                 </p>
 
                 <button
@@ -179,7 +179,11 @@ export function WalletStatusCard({
                   disabled={isConnecting}
                   className="px-8 py-3.5 rounded-xl font-semibold text-xs uppercase tracking-wider bg-gradient-to-r from-[#d4af37] via-[#f3d97c] to-[#b38e22] text-zinc-950 hover:brightness-110 shadow-lg shadow-[#d4af37]/20 transition-all cursor-pointer"
                 >
-                  {isConnecting ? 'Requesting Authorization...' : 'Connect Freighter Wallet'}
+                  {isConnecting
+                    ? 'Requesting Authorization...'
+                    : isFreighterInstalled
+                    ? 'Connect Freighter Wallet'
+                    : 'Connect Stellar Wallet'}
                 </button>
               </div>
             )}
