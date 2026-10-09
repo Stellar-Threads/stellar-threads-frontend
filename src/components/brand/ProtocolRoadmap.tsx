@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Sparkles,
   ShieldCheck,
   QrCode,
   FileCheck,
@@ -13,65 +12,69 @@ import { StatusBadge } from '../common/StatusBadge';
 export function ProtocolRoadmap() {
   const modules = [
     {
-      title: 'Stellar Foundation & XLM Payments',
+      title: 'Stellar Foundation & Multi-Wallet Payments',
       status: 'active' as const,
-      statusLabel: 'Operational Now',
+      statusLabel: 'Live on Testnet',
       variant: 'success' as const,
       icon: <Coins className="w-5 h-5 text-emerald-400" />,
       description:
-        'Live Stellar Testnet settlement, Freighter browser wallet connection, real-time balance queries, and on-chain XLM payments.',
+        'Live Stellar Testnet settlement, multi-wallet connectivity (Freighter, xBull, Albedo, Rabet), real-time balance queries, and on-chain XLM payments.',
       details: [
-        'Freighter wallet authorization & signature verification',
+        'Multi-wallet authorization & signature verification',
         'Direct Stellar Testnet Horizon submission',
-        'Sub-second payment settlement and transaction explorer verification',
+        'Sub-second payment settlement and explorer verification',
       ],
+      phase: 'Phase 1 & 2',
     },
     {
-      title: 'Designer Sovereign Identity & Verification',
-      status: 'upcoming' as const,
-      statusLabel: 'Upcoming Module',
-      variant: 'gold' as const,
-      icon: <ShieldCheck className="w-5 h-5 text-[#e5c158]" />,
+      title: 'Designer Sovereign Identity Registry',
+      status: 'active' as const,
+      statusLabel: 'Deployed Contract',
+      variant: 'success' as const,
+      icon: <ShieldCheck className="w-5 h-5 text-amber-400" />,
       description:
-        'Decentralized identity for fashion ateliers, master weavers, and independent labels. Protects creative ownership against counterfeit replication.',
+        'Soroban smart contract for sovereign fashion designer registration, metadata anchoring, and cryptographic provenance rights.',
       details: [
-        'On-chain atelier public key registry',
-        'Cryptographic collection signing & provenance certificates',
-        'Reputation scoring based on fulfilled production orders',
+        'On-chain atelier public key registry and metadata reference',
+        'require_auth() access-controlled profile updates',
+        'Contract events emitted and indexed in real-time',
       ],
+      phase: 'Phase 2 Live',
     },
     {
-      title: 'Digital Garment Passport & NFC Traceability',
-      status: 'upcoming' as const,
-      statusLabel: 'Upcoming Module',
-      variant: 'gold' as const,
-      icon: <QrCode className="w-5 h-5 text-[#e5c158]" />,
+      title: 'Digital Product Passport Registry',
+      status: 'active' as const,
+      statusLabel: 'Deployed Contract',
+      variant: 'success' as const,
+      icon: <QrCode className="w-5 h-5 text-amber-400" />,
       description:
-        'Immutable digital twins for garments from fiber to retail. Compliant with upcoming global digital product passport (DPP) regulations.',
+        'Immutable digital product passports (DPP) containing material composition, cryptographic integrity hashes, and secondary transfers.',
       details: [
-        'Textile origin & organic certification records',
-        'Physical NFC/RFID cryptographic chip linking',
-        'Secondary market ownership transfer without counterfeits',
+        'SHA-256 integrity hash verification against on-chain record',
+        'Creator-bound minting and batch edition numbering',
+        'Distinction between ledger integrity and physical authentication',
       ],
+      phase: 'Phase 2 Live',
     },
     {
       title: 'B2B Fashion Production Escrow',
-      status: 'upcoming' as const,
-      statusLabel: 'Upcoming Module',
-      variant: 'gold' as const,
-      icon: <FileCheck className="w-5 h-5 text-[#e5c158]" />,
+      status: 'active' as const,
+      statusLabel: 'Deployed Contract',
+      variant: 'success' as const,
+      icon: <FileCheck className="w-5 h-5 text-amber-400" />,
       description:
-        'Soroban smart-contract escrow for brand-to-manufacturer production runs. Funds release automatically upon verified delivery milestones.',
+        'Soroban smart-contract escrow for brand-to-manufacturer production orders with fund, release, and refund lifecycles.',
       details: [
-        'Pattern sample approval milestone release (20%)',
-        'Bulk textile cut & assemble milestone (40%)',
-        'Final quality assurance & customs clearance release (40%)',
+        'Contract-controlled escrow deposits in Stellar assets',
+        'Strict buyer authorization for delivery release',
+        'Seller-approved refund path and cancellation guards',
       ],
+      phase: 'Phase 2 Live',
     },
     {
       title: 'Pre-Order Crowd-Financing & Patronage',
       status: 'upcoming' as const,
-      statusLabel: 'Upcoming Module',
+      statusLabel: 'Next Stage Milestone',
       variant: 'gold' as const,
       icon: <TrendingUp className="w-5 h-5 text-[#e5c158]" />,
       description:
@@ -81,6 +84,7 @@ export function ProtocolRoadmap() {
         'Automatic order batching and production threshold triggers',
         'Patron proof-of-support badges and early delivery rights',
       ],
+      phase: 'Stage 3 Next',
     },
   ];
 
@@ -96,7 +100,8 @@ export function ProtocolRoadmap() {
             Protocol Evolution & Modules
           </h2>
           <p className="text-sm text-zinc-400 leading-relaxed font-light">
-            Stellar Threads is engineered in modular layers. The baseline Stellar Testnet wallet and settlement layer is operational today. Subsequent protocol components are in active development.
+            Stellar Threads is engineered in modular layers. Stage 2 Soroban smart contracts, multi-wallet
+            integration, and real-time event indexing are active and deployed on Stellar Testnet.
           </p>
         </div>
 
@@ -106,7 +111,7 @@ export function ProtocolRoadmap() {
               key={idx}
               className={`p-6 rounded-2xl border transition-all duration-300 relative flex flex-col justify-between ${
                 m.status === 'active'
-                  ? 'bg-zinc-900/80 border-emerald-800/60 shadow-lg shadow-emerald-950/20 ring-1 ring-emerald-500/30'
+                  ? 'bg-zinc-900/80 border-amber-900/50 shadow-lg shadow-amber-950/20 ring-1 ring-amber-500/20'
                   : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-700/80'
               }`}
             >
@@ -146,9 +151,9 @@ export function ProtocolRoadmap() {
               </div>
 
               <div className="mt-6 pt-3 border-t border-zinc-800/40 text-[11px] font-mono text-zinc-400 flex items-center justify-between">
-                <span>Phase {idx + 1}</span>
-                <span className={m.status === 'active' ? 'text-emerald-400 font-semibold' : 'text-zinc-400'}>
-                  {m.status === 'active' ? '● Operational in Stage 1' : 'Planned for Stage 2+'}
+                <span>{m.phase}</span>
+                <span className={m.status === 'active' ? 'text-amber-400 font-semibold' : 'text-zinc-400'}>
+                  {m.status === 'active' ? '● Live on Testnet' : 'Upcoming'}
                 </span>
               </div>
             </div>

@@ -4,29 +4,34 @@ import React, { useState } from 'react';
 import { Wallet, ExternalLink, Menu, X, Sparkles, ShieldCheck } from 'lucide-react';
 import { StatusBadge } from '../common/StatusBadge';
 import { CopyButton } from '../common/CopyButton';
-import { shortenAddress, getAccountExplorerUrl, STELLAR_NETWORK, PROTOCOL_INFO } from '../../config/stellar';
+import { shortenAddress, getAccountExplorerUrl } from '../../config/stellar';
 
 interface NavbarProps {
   walletAddress: string | null;
   walletStatus: string;
+  walletName?: string | null;
   isConnecting: boolean;
-  onConnect: () => void;
+  onOpenWalletModal?: () => void;
+  onConnect?: () => void;
   onDisconnect: () => void;
 }
 
 export function Navbar({
   walletAddress,
   walletStatus,
+  walletName = 'Wallet',
   isConnecting,
+  onOpenWalletModal,
   onConnect,
   onDisconnect,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const handleOpenConnect = onOpenWalletModal || onConnect || (() => {});
 
   const isConnected = walletStatus === 'connected' && !!walletAddress;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-[#090a0f]/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-[#090a0f]/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo & Brand Identity */}
@@ -55,39 +60,24 @@ export function Navbar({
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
-            <a
-              href="#overview"
-              className="text-zinc-400 hover:text-zinc-100 transition-colors"
-            >
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide">
+            <a href="#overview" className="text-zinc-400 hover:text-zinc-100 transition-colors">
               Overview
             </a>
-            <a
-              href="#dashboard"
-              className="text-zinc-400 hover:text-zinc-100 transition-colors"
-            >
-              Treasury
+            <a href="#designers" className="text-zinc-400 hover:text-[#e5c158] transition-colors">
+              Atelier Registry
             </a>
-            <a
-              href="#payment"
-              className="text-zinc-400 hover:text-zinc-100 transition-colors"
-            >
-              Transfer XLM
+            <a href="#passports" className="text-zinc-400 hover:text-[#e5c158] transition-colors">
+              Product Passports
             </a>
-            <a
-              href="#activity"
-              className="text-zinc-400 hover:text-zinc-100 transition-colors"
-            >
-              Activity
+            <a href="#escrow" className="text-zinc-400 hover:text-[#e5c158] transition-colors">
+              Fashion Escrow
             </a>
-            <a
-              href="#roadmap"
-              className="text-zinc-400 hover:text-[#e5c158] transition-colors flex items-center gap-1.5"
-            >
-              <span>Protocol Roadmap</span>
-              <span className="text-[10px] bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded uppercase">
-                Stage 1
-              </span>
+            <a href="#events" className="text-zinc-400 hover:text-[#e5c158] transition-colors">
+              Live Events
+            </a>
+            <a href="#payment" className="text-zinc-400 hover:text-zinc-100 transition-colors">
+              Direct XLM
             </a>
           </nav>
 
@@ -102,7 +92,9 @@ export function Navbar({
                       {shortenAddress(walletAddress!)}
                     </span>
                   </div>
-                  <span className="text-[10px] text-zinc-400 font-mono">Testnet Account</span>
+                  <span className="text-[10px] text-amber-400/90 font-mono">
+                    {walletName || 'Stellar Wallet'}
+                  </span>
                 </div>
 
                 <CopyButton text={walletAddress!} />
@@ -129,14 +121,14 @@ export function Navbar({
             ) : (
               <button
                 type="button"
-                onClick={onConnect}
+                onClick={handleOpenConnect}
                 disabled={isConnecting}
                 className="relative group overflow-hidden rounded-xl p-px font-semibold text-xs uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#d4af37]/5 cursor-pointer"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-[#d4af37] via-[#f3d97c] to-[#b38e22] group-hover:opacity-90 transition-opacity" />
                 <span className="relative flex items-center gap-2 px-4 py-2.5 rounded-[11px] bg-[#0d0e14] text-[#f7e7a9] group-hover:bg-[#12131a] transition-colors">
                   <Wallet className="w-4 h-4 text-[#e5c158]" />
-                  <span>{isConnecting ? 'Connecting...' : 'Connect Freighter'}</span>
+                  <span>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
                 </span>
               </button>
             )}
@@ -172,11 +164,32 @@ export function Navbar({
               Overview
             </a>
             <a
-              href="#dashboard"
+              href="#designers"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-zinc-100 py-1"
+              className="text-zinc-300 hover:text-[#e5c158] py-1"
             >
-              Treasury & Balance
+              Atelier Registry
+            </a>
+            <a
+              href="#passports"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-zinc-300 hover:text-[#e5c158] py-1"
+            >
+              Product Passports
+            </a>
+            <a
+              href="#escrow"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-zinc-300 hover:text-[#e5c158] py-1"
+            >
+              Fashion Escrow
+            </a>
+            <a
+              href="#events"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-zinc-300 hover:text-[#e5c158] py-1"
+            >
+              Live Events
             </a>
             <a
               href="#payment"
@@ -185,27 +198,13 @@ export function Navbar({
             >
               Send XLM Payment
             </a>
-            <a
-              href="#activity"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-zinc-100 py-1"
-            >
-              Transaction Activity
-            </a>
-            <a
-              href="#roadmap"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-zinc-300 hover:text-zinc-100 py-1"
-            >
-              Protocol Roadmap
-            </a>
           </nav>
 
           <div className="pt-4 border-t border-zinc-800">
             {isConnected ? (
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
-                  <span>Connected Address:</span>
+                  <span>Connected ({walletName}):</span>
                   <span>{shortenAddress(walletAddress!)}</span>
                 </div>
                 <button
@@ -223,13 +222,13 @@ export function Navbar({
               <button
                 type="button"
                 onClick={() => {
-                  onConnect();
+                  handleOpenConnect();
                   setMobileMenuOpen(false);
                 }}
                 disabled={isConnecting}
                 className="w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-[#f7e7a9] bg-gradient-to-r from-[#d4af37] to-[#b38e22] rounded-xl text-black"
               >
-                {isConnecting ? 'Connecting...' : 'Connect Freighter Wallet'}
+                {isConnecting ? 'Connecting...' : 'Connect Wallet'}
               </button>
             )}
           </div>
