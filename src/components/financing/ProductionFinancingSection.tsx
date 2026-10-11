@@ -15,6 +15,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import contractsConfig from '@/config/contracts.json';
+import { formatLocaleNumber, formatCryptoAmount } from '../../lib/format';
 
 interface Proposal {
   id: string;
@@ -108,7 +109,7 @@ export const ProductionFinancingSection: React.FC<ProductionFinancingSectionProp
             const funded = parseFloat(p.currentFunded.replace(/,/g, '')) + parseFloat(contribAmount);
             return {
               ...p,
-              currentFunded: funded.toLocaleString(),
+              currentFunded: formatLocaleNumber(funded),
               status: funded >= parseFloat(p.targetAmount.replace(/,/g, '')) ? 'Funded' : 'FundingActive',
             };
           }
