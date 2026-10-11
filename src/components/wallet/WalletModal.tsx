@@ -3,6 +3,7 @@
 import React from 'react';
 import { X, ExternalLink, CheckCircle, ShieldCheck } from 'lucide-react';
 import { WalletOption, WalletProviderId } from '../../types/stellar';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
   activeWalletId,
   isConnecting,
 }) => {
+  useEscapeKey(onClose, isOpen);
   if (!isOpen) return null;
 
   return (
