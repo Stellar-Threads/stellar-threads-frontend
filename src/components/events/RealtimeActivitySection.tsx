@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Activity,
   ExternalLink,
@@ -18,12 +18,14 @@ export const RealtimeActivitySection: React.FC = () => {
   const [isConnectedSSE, setIsConnectedSSE] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Fallback REST fetch
-  const fetchEvents = async () => {
+  const isMountedRef = useRef(true);
+
+  const fetchEvents = useCallback(async () => {
+    if (!isMountedRef.current) return;
     setIsLoading(true);
     try {
       const res = await fetch(`${CORE_API_URL}/api/v1/events?limit=50`);
-      if (res.ok) {
+      if (res.ok && isMountedRef.current) {
         const json = await res.json();
         if (json.data?.events) {
           setEvents(json.data.events);
@@ -32,51 +34,59 @@ export const RealtimeActivitySection: React.FC = () => {
     } catch {
       // Fallback sample data if core backend is still starting
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
-  };
+  }, []);
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchEvents();
 
-    // Setup Server-Sent Events (SSE)
     let eventSource: EventSource | null = null;
-    try {
-      eventSource = new EventSource(`${CORE_API_URL}/api/v1/events/stream`);
+    if (typeof window !== 'undefined' && typeof EventSource !== 'undefined') {
+      try {
+        eventSource = new EventSource(`${CORE_API_URL}/api/v1/events/stream`);
 
-      eventSource.onopen = () => {
-        setIsConnectedSSE(true);
-      };
+        eventSource.onopen = () => {
+          if (isMountedRef.current) setIsConnectedSSE(true);
+        };
 
-      eventSource.onmessage = (e) => {
-        try {
-          const parsed = JSON.parse(e.data);
-          if (parsed && parsed.eventType) {
-            setEvents((prev) => {
-              const exists = prev.some((item) => item.id === parsed.id);
-              if (exists) return prev;
-              return [parsed, ...prev].slice(0, 50);
-            });
-          }
-        } catch {}
-      };
+        eventSource.onmessage = (e) => {
+          if (!isMountedRef.current) return;
+          try {
+            const parsed = JSON.parse(e.data);
+            if (parsed && parsed.eventType) {
+              setEvents((prev) => {
+                const exists = prev.some((item) => item.id === parsed.id);
+                if (exists) return prev;
+                return [parsed, ...prev].slice(0, 50);
+              });
+            }
+          } catch {}
+        };
 
-      eventSource.onerror = () => {
-        setIsConnectedSSE(false);
-      };
-    } catch {
-      setIsConnectedSSE(false);
+        eventSource.onerror = () => {
+          if (isMountedRef.current) setIsConnectedSSE(false);
+        };
+      } catch {
+        if (isMountedRef.current) setIsConnectedSSE(false);
+      }
     }
 
-    const interval = setInterval(fetchEvents, 8000);
+    const interval = setInterval(() => {
+      if (isMountedRef.current) fetchEvents();
+    }, 8000);
 
     return () => {
+      isMountedRef.current = false;
       clearInterval(interval);
       if (eventSource) {
         eventSource.close();
       }
     };
-  }, []);
+  }, [fetchEvents]);
 
   const filteredEvents = events.filter((ev) => {
     if (filter === 'all') return true;
