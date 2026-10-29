@@ -16,6 +16,11 @@ import { FashionEscrowSection } from '../components/escrow/FashionEscrowSection'
 import { ProductionFinancingSection } from '../components/financing/ProductionFinancingSection';
 import { RealtimeActivitySection } from '../components/events/RealtimeActivitySection';
 import { AlertBanner } from '../components/common/AlertBanner';
+import { ErrorBoundary } from '../components/common/ErrorBoundary';
+import { ProtocolAnalyticsDashboard } from '../components/analytics/ProtocolAnalyticsDashboard';
+import { SolvencyAuditorSection } from '../components/auditor/SolvencyAuditorSection';
+import { ProtocolBadge } from '../components/common/ProtocolBadge';
+import { FriendbotFaucetModal } from '../components/wallet/FriendbotFaucetModal';
 import { useStellarWallet } from '../hooks/useStellarWallet';
 import { useStellarBalance } from '../hooks/useStellarBalance';
 import { useTransactionHistory } from '../hooks/useTransactionHistory';
@@ -29,7 +34,7 @@ import {
   Coins,
   Activity,
   Send,
-  TrendingUp,
+  Droplet,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -70,8 +75,9 @@ export default function HomePage() {
   } = useTransactionHistory(userAddress);
 
   const [activeTab, setActiveTab] = useState<
-    'all' | 'designers' | 'passports' | 'escrow' | 'financing' | 'events' | 'payments'
+    'all' | 'designers' | 'passports' | 'escrow' | 'financing' | 'events' | 'auditor' | 'payments'
   >('all');
+  const [isFaucetOpen, setIsFaucetOpen] = useState(false);
 
   const isConnected = walletStatus === 'connected' && !!userAddress;
 
@@ -99,7 +105,9 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Editorial Fashion-Finance Hero */}
-        <HeroSection onConnectClick={openModal} isConnected={isConnected} />
+        <ErrorBoundary fallbackTitle="Hero Presentation Error">
+          <HeroSection onConnectClick={openModal} isConnected={isConnected} />
+        </ErrorBoundary>
 
         {/* Global Network Status Banner */}
         <section className="border-y border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
@@ -107,13 +115,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-4 text-xs">
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                  </span>
-                  <span className="text-zinc-300 font-medium font-mono uppercase text-[11px]">
-                    Stellar Testnet Online &bull; Soroban Contracts Active
-                  </span>
+                  <ProtocolBadge protocolVersion="Protocol 22" isOnline={true} />
                 </div>
 
                 <div className="hidden sm:flex items-center gap-2 text-zinc-400 font-mono text-[11px]">
@@ -123,132 +125,68 @@ export default function HomePage() {
               </div>
 
               <div className="flex items-center gap-4 text-zinc-400 font-mono text-[11px]">
+                <button
+                  onClick={() => setIsFaucetOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-300 hover:bg-amber-500/20 transition-colors"
+                >
+                  <Droplet className="h-3 w-3 text-amber-400" />
+                  <span>Friendbot (10k XLM)</span>
+                </button>
                 <div className="flex items-center gap-1.5">
                   <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>
-                    Multi-Wallet: {selectedWalletName || 'Non-Custodial'}
-                  </span>
-                </div>
-                <div className="hidden md:flex items-center gap-1.5 text-zinc-400">
-                  <span>Network:</span>
-                  <span className="text-amber-400 font-bold uppercase">Testnet</span>
+                  <span>Multi-Wallet: {selectedWalletName || 'Freighter'}</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Main Application Container */}
+        {/* Core Application Workspace */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-          {/* Unconnected Notice */}
-          {!isConnected && (
-            <AlertBanner
-              type="info"
-              title="Connect Your Stellar Wallet"
-              message={
-                <span>
-                  Connect via <strong>Freighter</strong>, <strong>xBull</strong>,{' '}
-                  <strong>Albedo</strong>, <strong>Rabet</strong>, or <strong>Lobstr</strong> to
-                  interact with deployed Soroban contracts: register designer ateliers, mint product
-                  passports, and manage production escrow.
-                </span>
-              }
-              action={
+          {/* Sub-Navigation Filter Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-zinc-800/80">
+            {[
+              { id: 'all', label: 'All Modules', icon: Layers },
+              { id: 'designers', label: 'Ateliers', icon: Building2 },
+              { id: 'passports', label: 'Garment Passports', icon: Tag },
+              { id: 'escrow', label: 'Fashion Escrow', icon: Shield },
+              { id: 'financing', label: 'Factoring', icon: Coins },
+              { id: 'auditor', label: 'Solvency Proof', icon: Shield },
+              { id: 'events', label: 'Events Feed', icon: Activity },
+              { id: 'payments', label: 'Direct Payments', icon: Send },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
                 <button
-                  type="button"
-                  onClick={openModal}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#d4af37] to-[#b38e22] text-zinc-950 hover:brightness-110 cursor-pointer"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    isActive
+                      ? 'bg-[#e5c158] text-zinc-950 font-bold shadow-sm'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
+                  }`}
                 >
-                  Select & Connect Wallet
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{tab.label}</span>
                 </button>
-              }
-            />
-          )}
-
-          {/* Module Navigation Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-stone-800 scrollbar-none">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'all'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" />
-              All Protocol Modules
-            </button>
-            <button
-              onClick={() => setActiveTab('designers')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'designers'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Building2 className="w-3.5 h-3.5" />
-              Atelier Registry
-            </button>
-            <button
-              onClick={() => setActiveTab('passports')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'passports'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Tag className="w-3.5 h-3.5" />
-              Digital Product Passports
-            </button>
-            <button
-              onClick={() => setActiveTab('escrow')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'escrow'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Coins className="w-3.5 h-3.5" />
-              Fashion Escrow
-            </button>
-            <button
-              onClick={() => setActiveTab('financing')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'financing'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <TrendingUp className="w-3.5 h-3.5" />
-              Production Financing
-            </button>
-            <button
-              onClick={() => setActiveTab('events')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'events'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5" />
-              Live Events
-            </button>
-            <button
-              onClick={() => setActiveTab('payments')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 whitespace-nowrap ${
-                activeTab === 'payments'
-                  ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-950/20'
-                  : 'text-stone-400 hover:text-white hover:bg-stone-900'
-              }`}
-            >
-              <Send className="w-3.5 h-3.5" />
-              Treasury & Payments
-            </button>
+              );
+            })}
           </div>
 
-          {/* Module 1: Treasury & Account Overview */}
+          {/* Module: Solvency Proof-of-Reserve Auditor & Protocol Financial Aggregates */}
+          {(activeTab === 'all' || activeTab === 'auditor') && (
+            <ErrorBoundary fallbackTitle="Solvency Auditor Module Error">
+              <section className="space-y-6">
+                <ProtocolAnalyticsDashboard />
+                <SolvencyAuditorSection />
+              </section>
+            </ErrorBoundary>
+          )}
+
+          {/* Module 1: Treasury & Multi-Wallet Control */}
           {(activeTab === 'all' || activeTab === 'payments') && (
-            <section id="dashboard" className="space-y-4">
+            <section id="treasury" className="space-y-8">
               <div className="space-y-1">
                 <h2 className="font-serif text-2xl font-bold tracking-tight text-zinc-100">
                   Treasury & Multi-Wallet Control
@@ -287,51 +225,61 @@ export default function HomePage() {
           {/* Module 2: Atelier & Designer Registry */}
           {(activeTab === 'all' || activeTab === 'designers') && (
             <div id="designers">
-              <DesignerRegistrySection
-                userAddress={userAddress}
-                walletId={selectedWalletId}
-                isConnected={isConnected}
-              />
+              <ErrorBoundary fallbackTitle="Designer Registry Module Error">
+                <DesignerRegistrySection
+                  userAddress={userAddress}
+                  walletId={selectedWalletId}
+                  isConnected={isConnected}
+                />
+              </ErrorBoundary>
             </div>
           )}
 
           {/* Module 3: Digital Product Passports */}
           {(activeTab === 'all' || activeTab === 'passports') && (
             <div id="passports">
-              <ProductPassportSection
-                userAddress={userAddress}
-                walletId={selectedWalletId}
-                isConnected={isConnected}
-              />
+              <ErrorBoundary fallbackTitle="Garment Passports Module Error">
+                <ProductPassportSection
+                  userAddress={userAddress}
+                  walletId={selectedWalletId}
+                  isConnected={isConnected}
+                />
+              </ErrorBoundary>
             </div>
           )}
 
           {/* Module 4: B2B Fashion Production Escrow */}
           {(activeTab === 'all' || activeTab === 'escrow') && (
             <div id="escrow">
-              <FashionEscrowSection
-                userAddress={userAddress}
-                walletId={selectedWalletId}
-                isConnected={isConnected}
-              />
+              <ErrorBoundary fallbackTitle="Fashion Escrow Module Error">
+                <FashionEscrowSection
+                  userAddress={userAddress}
+                  walletId={selectedWalletId}
+                  isConnected={isConnected}
+                />
+              </ErrorBoundary>
             </div>
           )}
 
           {/* Module 4.5: Production Financing */}
           {(activeTab === 'all' || activeTab === 'financing') && (
             <div id="financing">
-              <ProductionFinancingSection walletAddress={userAddress} />
+              <ErrorBoundary fallbackTitle="Production Financing Module Error">
+                <ProductionFinancingSection walletAddress={userAddress} />
+              </ErrorBoundary>
             </div>
           )}
 
           {/* Module 5: Live Contract Events */}
           {(activeTab === 'all' || activeTab === 'events') && (
             <div id="events">
-              <RealtimeActivitySection />
+              <ErrorBoundary fallbackTitle="Events Stream Module Error">
+                <RealtimeActivitySection />
+              </ErrorBoundary>
             </div>
           )}
 
-          {/* Module 6: Stage 1 Direct Payment & History */}
+          {/* Module 6: Direct XLM Payment Form & History */}
           {(activeTab === 'all' || activeTab === 'payments') && (
             <section id="payment" className="space-y-8 pt-4">
               <div className="space-y-1">
@@ -381,6 +329,13 @@ export default function HomePage() {
       </main>
 
       <Footer />
+
+      <FriendbotFaucetModal
+        isOpen={isFaucetOpen}
+        onClose={() => setIsFaucetOpen(false)}
+        defaultPublicKey={userAddress || ''}
+        onFunded={refreshBalance}
+      />
     </div>
   );
 }
