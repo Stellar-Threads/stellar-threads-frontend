@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sprout, Scissors, Sparkles, Truck, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 export interface ProvenanceStep {
   title: string;

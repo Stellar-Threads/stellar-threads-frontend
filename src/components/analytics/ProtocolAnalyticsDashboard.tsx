@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { StatsMetricCard } from '../common/StatsMetricCard';
-import { Coins, ShieldCheck, Tag, TrendingUp, Users } from 'lucide-react';
+import { Coins, ShieldCheck, Tag, TrendingUp } from 'lucide-react';
 
 export function ProtocolAnalyticsDashboard() {
   return (

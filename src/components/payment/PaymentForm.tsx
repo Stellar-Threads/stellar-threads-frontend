@@ -3,14 +3,12 @@
 import React, { useState } from 'react';
 import {
   Send,
-  Sparkles,
   AlertCircle,
   CheckCircle2,
   ExternalLink,
   ShieldAlert,
   ArrowRight,
-  Info,
-} from 'lucide-react';
+  } from 'lucide-react';
 import {
   validateStellarAddress,
   validatePaymentAmount,
@@ -27,7 +25,7 @@ import {
   STELLAR_NETWORK,
 } from '../../config/stellar';
 import { MemoType, SessionTransaction } from '../../types/stellar';
-import { StatusBadge } from '../common/StatusBadge';
+
 
 interface PaymentFormProps {
   senderAddress: string | null;

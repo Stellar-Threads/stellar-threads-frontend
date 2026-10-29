@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertTriangle, Scale, Check, X } from 'lucide-react';
+import { AlertTriangle, Scale } from 'lucide-react';
 
 interface Props {
   orderId: number;
@@ -9,7 +9,7 @@ interface Props {
   onResolve: (refundBps: number) => void;
 }
 
-export function DisputeResolutionCard({ orderId, totalStroops, onResolve }: Props) {
+export function DisputeResolutionCard({ orderId, totalStroops: _totalStroops, onResolve }: Props) {
   const [refundBps, setRefundBps] = useState(5000); // 50% default
 
   const refundPercent = (refundBps / 100).toFixed(0);

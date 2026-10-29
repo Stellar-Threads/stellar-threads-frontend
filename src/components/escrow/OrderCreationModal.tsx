@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Shield, X, CheckCircle2, Loader2 } from 'lucide-react';
-import { StroopFormatter } from '../common/StroopFormatter';
+
 
 interface Props {
   isOpen: boolean;

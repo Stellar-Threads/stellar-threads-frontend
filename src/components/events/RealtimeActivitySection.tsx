@@ -5,13 +5,10 @@ import {
   Activity,
   ExternalLink,
   Radio,
-  Filter,
-  CheckCircle2,
   RefreshCw,
-  Box,
-} from 'lucide-react';
+  } from 'lucide-react';
 import { ContractEventItem } from '../../types/stellar';
-import { getTxExplorerUrl, shortenAddress, shortenHash } from '../../config/stellar';
+import { getTxExplorerUrl, shortenHash } from '../../config/stellar';
 
 const CORE_API_URL = process.env.NEXT_PUBLIC_CORE_API_URL || 'http://localhost:4000';
 

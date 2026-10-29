@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { QrCode, ShieldCheck, X, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
+import { QrCode, X, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface Props {
   isOpen: boolean;

@@ -4,7 +4,6 @@ import React from 'react';
 import {
   Wallet,
   ExternalLink,
-  ShieldCheck,
   AlertTriangle,
   RefreshCw,
   Download,
@@ -13,7 +12,6 @@ import {
 import { CopyButton } from '../common/CopyButton';
 import { StatusBadge } from '../common/StatusBadge';
 import {
-  shortenAddress,
   getAccountExplorerUrl,
   STELLAR_NETWORK,
 } from '../../config/stellar';
@@ -31,7 +29,7 @@ interface WalletStatusCardProps {
 export function WalletStatusCard({
   status,
   address,
-  network,
+  network: _network,
   isFreighterInstalled,
   error,
   onConnect,

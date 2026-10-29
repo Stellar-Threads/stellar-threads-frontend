@@ -1,4 +1,4 @@
-import { Horizon, Transaction } from '@stellar/stellar-sdk';
+import { Transaction } from '@stellar/stellar-sdk';
 import { getHorizonServer } from './client';
 
 export interface SubmitTxResult {

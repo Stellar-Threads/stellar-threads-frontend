@@ -4,8 +4,7 @@ import {
   Operation,
   Asset,
   Memo,
-  Networks,
-} from '@stellar/stellar-sdk';
+  } from '@stellar/stellar-sdk';
 import { STELLAR_NETWORK } from '../../config/stellar';
 import { MemoType, OnChainPayment } from '../../types/stellar';
 

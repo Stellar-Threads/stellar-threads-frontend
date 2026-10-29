@@ -8,7 +8,7 @@ interface Props {
   score: number;
 }
 
-export function SustainabilityScoreCard({ brandName, score }: Props) {
+export function SustainabilityScoreCard({ brandName: _brandName, score }: Props) {
   return (
     <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/15 p-5">
       <div className="flex items-center justify-between mb-4">

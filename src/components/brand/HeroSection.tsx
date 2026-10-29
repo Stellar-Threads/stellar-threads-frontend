@@ -1,6 +1,6 @@
 import React from 'react';
-import { ArrowDown, Coins, Globe2, Layers, ShieldCheck, Sparkles } from 'lucide-react';
-import { PROTOCOL_INFO } from '../../config/stellar';
+import { Coins, Globe2, Layers, ShieldCheck, Sparkles } from 'lucide-react';
+
 
 interface HeroSectionProps {
   onConnectClick: () => void;

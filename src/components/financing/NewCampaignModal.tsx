@@ -12,7 +12,7 @@ interface Props {
 export function NewCampaignModal({ isOpen, onClose, onCreateCampaign }: Props) {
   const [targetXlm, setTargetXlm] = useState('500');
   const [yieldBps, setYieldBps] = useState(850);
-  const [durationDays, setDurationDays] = useState(180);
+  const [durationDays] = useState(180);
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
 

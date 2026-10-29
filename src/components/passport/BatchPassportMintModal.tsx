@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Tag, X, Upload, CheckCircle2, Loader2 } from 'lucide-react';
+import { Tag, X, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface Props {
   isOpen: boolean;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Cpu, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Cpu, AlertTriangle } from 'lucide-react';
 
 interface Props {
   protocolVersion?: string;

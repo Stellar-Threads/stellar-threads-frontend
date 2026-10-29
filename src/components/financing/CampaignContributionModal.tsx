@@ -12,7 +12,7 @@ interface Props {
   onContribute: (stroops: string) => Promise<void>;
 }
 
-export function CampaignContributionModal({ isOpen, onClose, campaignId, targetStroops, onContribute }: Props) {
+export function CampaignContributionModal({ isOpen, onClose, campaignId, targetStroops: _targetStroops, onContribute }: Props) {
   const [amountXlm, setAmountXlm] = useState('50');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

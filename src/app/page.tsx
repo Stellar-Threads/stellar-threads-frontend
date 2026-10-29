@@ -15,7 +15,7 @@ import { ProductPassportSection } from '../components/passport/ProductPassportSe
 import { FashionEscrowSection } from '../components/escrow/FashionEscrowSection';
 import { ProductionFinancingSection } from '../components/financing/ProductionFinancingSection';
 import { RealtimeActivitySection } from '../components/events/RealtimeActivitySection';
-import { AlertBanner } from '../components/common/AlertBanner';
+
 import { ErrorBoundary } from '../components/common/ErrorBoundary';
 import { ProtocolAnalyticsDashboard } from '../components/analytics/ProtocolAnalyticsDashboard';
 import { SolvencyAuditorSection } from '../components/auditor/SolvencyAuditorSection';

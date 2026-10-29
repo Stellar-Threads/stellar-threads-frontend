@@ -6,10 +6,9 @@ import {
   RefreshCw,
   Sparkles,
   AlertCircle,
-  HelpCircle,
   CheckCircle2,
 } from 'lucide-react';
-import { StatusBadge } from '../common/StatusBadge';
+
 import { STELLAR_NETWORK } from '../../config/stellar';
 
 interface BalanceCardProps {

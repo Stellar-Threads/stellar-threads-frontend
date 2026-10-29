@@ -9,8 +9,7 @@ import {
   ArrowUpRight,
   ArrowDownLeft,
   Clock,
-  Sparkles,
-} from 'lucide-react';
+  } from 'lucide-react';
 import { SessionTransaction, OnChainPayment } from '../../types/stellar';
 import { shortenAddress, shortenHash } from '../../config/stellar';
 import { StatusBadge } from '../common/StatusBadge';

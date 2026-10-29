@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Users, User, ShieldCheck, Sparkles } from 'lucide-react';
+import { User, ShieldCheck, Sparkles } from 'lucide-react';
 
 export type UserPersona = 'Buyer' | 'Designer' | 'Inspector';
 

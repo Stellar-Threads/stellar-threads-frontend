@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldAlert, CheckCircle2, RefreshCw, Lock } from 'lucide-react';
+import { CheckCircle2, Lock } from 'lucide-react';
 
 export function SolvencyAuditorSection() {
   return (
