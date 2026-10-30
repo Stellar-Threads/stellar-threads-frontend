@@ -10,7 +10,7 @@
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.4.0-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-CSS%204-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 [![Vitest Passing](https://img.shields.io/badge/Component%20Tests-47%2F47%20Passing-emerald?style=flat-square)](src/__tests__/)
-[![Netlify](https://img.shields.io/badge/Deploy-stellar--threads.netlify.app-00c7b7?style=flat-square&logo=netlify)](https://stellar-threads.netlify.app)
+[![Netlify](https://img.shields.io/badge/Deploy-stellar--threads--app.netlify.app-00c7b7?style=flat-square&logo=netlify)](https://stellar-threads-app.netlify.app)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](LICENSE)
 
 </div>
@@ -23,7 +23,7 @@
 
 The **Stellar Threads Frontend Portal** is a production-grade, editorial luxury web application built with **Next.js**, **React 19**, and **Tailwind CSS**. It connects directly to Stellar Testnet smart contracts through **Freighter**, **Lobstr**, and **xBull** via the **Stellar Wallets Kit**.
 
-Live Production URL: **[https://stellar-threads.netlify.app](https://stellar-threads.netlify.app)**
+Live Production URL: **[https://stellar-threads-app.netlify.app](https://stellar-threads-app.netlify.app)**
 
 ---
 
