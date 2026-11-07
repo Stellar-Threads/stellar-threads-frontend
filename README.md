@@ -7,7 +7,8 @@
 <div align="center">
 
 [![Protocol 22](https://img.shields.io/badge/Stellar-Protocol%2022-gold?style=flat-square&logo=stellar)](https://stellar.org)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.4.0-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![Frontend CI](https://github.com/Stellar-Threads/stellar-threads-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Stellar-Threads/stellar-threads-frontend/actions)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.4.5-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-CSS%204-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 [![Vitest Passing](https://img.shields.io/badge/Component%20Tests-47%2F47%20Passing-emerald?style=flat-square)](src/__tests__/)
 [![Netlify](https://img.shields.io/badge/Deploy-stellar--threads--app.netlify.app-00c7b7?style=flat-square&logo=netlify)](https://stellar-threads-app.netlify.app)
@@ -24,6 +25,19 @@
 The **Stellar Threads Frontend Portal** is a production-grade, editorial luxury web application built with **Next.js**, **React 19**, and **Tailwind CSS**. It connects directly to Stellar Testnet smart contracts through **Freighter**, **Lobstr**, and **xBull** via the **Stellar Wallets Kit**.
 
 Live Production URL: **[https://stellar-threads-app.netlify.app](https://stellar-threads-app.netlify.app)**
+
+---
+
+## 🏛️ Verified Testnet Contract Deployments
+
+The frontend portal interfaces directly with these live Soroban contracts on Stellar Testnet:
+
+| Contract | Soroban Contract ID | Explorer Link |
+|---|---|:---:|
+| `DesignerRegistry` | `CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR` | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR) |
+| `ProductPassport` | `CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL` | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL) |
+| `FashionEscrow` | `CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D` | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D) |
+| `ProductionFinancing` | `CAIK2L6D272O6RZA23LRL3QSHLDVXNZXD6BKXCYNEL6R35IEG3YXES3M` | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CAIK2L6D272O6RZA23LRL3QSHLDVXNZXD6BKXCYNEL6R35IEG3YXES3M) |
 
 ---
 
