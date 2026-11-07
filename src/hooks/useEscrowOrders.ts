@@ -19,7 +19,8 @@ export function useEscrowOrders() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/v1/escrow/orders');
+      const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
+      const res = await fetch(`${baseUrl}/api/v1/escrow/orders`);
       if (!res.ok) throw new Error(`Failed to fetch orders: ${res.statusText}`);
       const json = await res.json();
       setOrders(json.data || []);

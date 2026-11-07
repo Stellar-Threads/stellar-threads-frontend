@@ -18,11 +18,28 @@ import {
 
 export const DEPLOYED_CONTRACTS = {
   designerRegistry: process.env.NEXT_PUBLIC_DESIGNER_REGISTRY_CONTRACT || 'CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR',
-  productPassport: process.env.NEXT_PUBLIC_PRODUCT_PASSPORT_CONTRACT || 'CAJLI5PXVPQWOY4C2MCG7GII37IORAP4PL5AVX7GSOCUV6FH5FTW2E4U',
+  productPassport: process.env.NEXT_PUBLIC_PRODUCT_PASSPORT_CONTRACT || 'CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL',
   fashionEscrow: process.env.NEXT_PUBLIC_FASHION_ESCROW_CONTRACT || 'CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D',
+  productionFinancing: process.env.NEXT_PUBLIC_PRODUCTION_FINANCING_CONTRACT || 'CAIK2L6D272O6RZA23LRL3QSHLDVXNZXD6BKXCYNEL6R35IEG3YXES3M',
 };
 
 export const sorobanServer = new rpc.Server(STELLAR_NETWORK.rpcUrl);
+
+/**
+ * Dynamically resolves invocation base fee, with safety fallback to 100 stroops
+ */
+export async function getDynamicInvocationFee(): Promise<string> {
+  try {
+    const res = await fetch(`${STELLAR_NETWORK.horizonUrl}/fee_stats`);
+    if (res.ok) {
+      const stats = await res.json();
+      if (stats?.max_fee?.mode) {
+        return String(Math.max(100, Number(stats.max_fee.mode)));
+      }
+    }
+  } catch {}
+  return STELLAR_NETWORK.baseFeeStroops || '100';
+}
 
 async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));

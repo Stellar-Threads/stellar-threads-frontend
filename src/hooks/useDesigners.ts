@@ -18,7 +18,8 @@ export function useDesigners() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch('/api/v1/designers');
+        const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
+        const res = await fetch(`${baseUrl}/api/v1/designers`);
         const json = await res.json();
         setDesigners(json.data || []);
       } catch {

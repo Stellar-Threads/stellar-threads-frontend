@@ -19,7 +19,8 @@ export function useFinancingCampaigns() {
   useEffect(() => {
     async function fetchCampaigns() {
       try {
-        const res = await fetch('/api/v1/financing/campaigns');
+        const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
+        const res = await fetch(`${baseUrl}/api/v1/financing/campaigns`);
         const json = await res.json();
         setCampaigns(json.data || []);
       } catch {

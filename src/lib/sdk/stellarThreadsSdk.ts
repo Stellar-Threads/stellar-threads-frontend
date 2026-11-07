@@ -29,7 +29,7 @@ export interface FactoringRoiCalculation {
 export class StellarThreadsSdk {
   private baseUrl: string;
 
-  constructor(baseUrl = 'http://localhost:3001/api/v1') {
+  constructor(baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL ? `${process.env.NEXT_PUBLIC_CORE_API_URL}/api/v1` : 'http://localhost:3001/api/v1') {
     this.baseUrl = baseUrl;
   }
 
