@@ -8,6 +8,7 @@
 
 [![Protocol 22](https://img.shields.io/badge/Stellar-Protocol%2022-gold?style=flat-square&logo=stellar)](https://stellar.org)
 [![Frontend CI](https://github.com/Stellar-Threads/stellar-threads-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Stellar-Threads/stellar-threads-frontend/actions)
+[![CodeQL](https://github.com/Stellar-Threads/stellar-threads-frontend/actions/workflows/codeql.yml/badge.svg)](https://github.com/Stellar-Threads/stellar-threads-frontend/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.4.5-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-CSS%204-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 [![Vitest Passing](https://img.shields.io/badge/Component%20Tests-47%2F47%20Passing-emerald?style=flat-square)](src/__tests__/)
