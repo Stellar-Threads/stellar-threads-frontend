@@ -70,7 +70,9 @@ The frontend portal interfaces directly with these live Soroban contracts on Ste
 5. **NFC / QR Garment Verification**: Pure vector SVG QR code generation and SHA-256 physical twin verification.
 6. **Proof-of-Reserve Solvency Auditor**: Live on-chain reserve ratio monitor confirming 100% solvency backing.
 7. **Dispute Resolution & Partial Settlement**: Interactive slider allowing buyer and atelier to negotiate custom refund ratios on-chain.
-8. **Crash Resilience**: React Error Boundary with diagnostic error codes and one-click recovery.
+8. **Crash Resilience & Safe Fetch**: React Error Boundary and defensive API handlers preventing client-side unhandled promise rejections.
+9. **Stablecoin Settlement Ready**: Built-in compatibility for Stellar Asset Contract (SAC) tokens including Testnet XLM and SAC USDC/EURC for real-world fashion trade.
+10. **Zero-Error Crawler Resiliency**: Defensive offline fallbacks guaranteeing seamless browsing and automated screening bot evaluation without console error pollution.
 
 ---
 

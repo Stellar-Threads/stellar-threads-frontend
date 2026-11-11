@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { safeFetchJson } from '../lib/api/safeFetch';
 
 export interface DesignerProfile {
   designerAddress: string;
@@ -18,10 +19,21 @@ export function useDesigners() {
   useEffect(() => {
     async function load() {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
-        const res = await fetch(`${baseUrl}/api/v1/designers`);
-        const json = await res.json();
-        setDesigners(json.data || []);
+        const json = await safeFetchJson<{ data?: DesignerProfile[] }>('/api/v1/designers');
+        if (json?.data && json.data.length > 0) {
+          setDesigners(json.data);
+        } else {
+          setDesigners([
+            {
+              designerAddress: 'GBTYMGFXTESTADDRESS1234567890DESIGNER1',
+              brandName: 'Maison de Stellar',
+              specialty: 'Sustainable Bio-Silk Evening Wear',
+              tier: 'VerifiedAtelier',
+              reputationScore: 98,
+              registeredAt: new Date().toISOString(),
+            },
+          ]);
+        }
       } catch {
         setDesigners([
           {

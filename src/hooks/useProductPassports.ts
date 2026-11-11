@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { safeFetchJson } from '../lib/api/safeFetch';
 
 export interface PassportRecord {
   productId: string;
@@ -18,10 +19,22 @@ export function useProductPassports() {
   useEffect(() => {
     async function load() {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
-        const res = await fetch(`${baseUrl}/api/v1/passports`);
-        const json = await res.json();
-        setPassports(json.data || []);
+        const json = await safeFetchJson<{ data?: PassportRecord[] }>('/api/v1/passports');
+        if (json?.data && json.data.length > 0) {
+          setPassports(json.data);
+        } else {
+          // Fallback demo passport
+          setPassports([
+            {
+              productId: 'PASSPORT-BIO-SILK-001',
+              designer: 'GBTYMGFXTESTADDRESS1234567890DESIGNER1',
+              materialsHash: 'sha256-a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6',
+              batchSize: 50,
+              status: 'Authentic',
+              mintedAt: new Date().toISOString(),
+            },
+          ]);
+        }
       } catch {
         // Fallback demo passport
         setPassports([

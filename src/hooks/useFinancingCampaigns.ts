@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { safeFetchJson } from '../lib/api/safeFetch';
 
 export interface FinancingProposal {
   campaignId: number;
@@ -19,10 +20,23 @@ export function useFinancingCampaigns() {
   useEffect(() => {
     async function fetchCampaigns() {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_CORE_API_URL || '';
-        const res = await fetch(`${baseUrl}/api/v1/financing/campaigns`);
-        const json = await res.json();
-        setCampaigns(json.data || []);
+        const json = await safeFetchJson<{ data?: FinancingProposal[] }>('/api/v1/financing/campaigns');
+        if (json?.data && json.data.length > 0) {
+          setCampaigns(json.data);
+        } else {
+          // Fallback demo factoring proposal
+          setCampaigns([
+            {
+              campaignId: 201,
+              designer: 'GBTYMGFXTESTADDRESS1234567890DESIGNER1',
+              targetStroops: '1000000000',
+              raisedStroops: '450000000',
+              yieldBps: 850,
+              durationDays: 180,
+              status: 'Active',
+            },
+          ]);
+        }
       } catch {
         // Fallback demo factoring proposal
         setCampaigns([

@@ -34,13 +34,23 @@ export class StellarThreadsSdk {
   }
 
   async getHealth() {
-    const res = await fetch(`${this.baseUrl}/health`);
-    return res.json();
+    try {
+      const res = await fetch(`${this.baseUrl}/health`);
+      if (!res.ok) return { status: 'offline' };
+      return await res.json();
+    } catch {
+      return { status: 'offline' };
+    }
   }
 
   async getAnalyticsOverview() {
-    const res = await fetch(`${this.baseUrl}/analytics/overview`);
-    return res.json();
+    try {
+      const res = await fetch(`${this.baseUrl}/analytics/overview`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   }
 
   async calculateFactoringRoi(principalStroops: string, yieldBps: number, durationDays: number): Promise<FactoringRoiCalculation> {
@@ -54,8 +64,13 @@ export class StellarThreadsSdk {
   }
 
   async getPassportQr(productId: string) {
-    const res = await fetch(`${this.baseUrl}/passports/qr/${encodeURIComponent(productId)}`);
-    return res.json();
+    try {
+      const res = await fetch(`${this.baseUrl}/passports/qr/${encodeURIComponent(productId)}`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   }
 }
 

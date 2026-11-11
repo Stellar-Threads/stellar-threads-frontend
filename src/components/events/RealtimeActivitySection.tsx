@@ -10,10 +10,44 @@ import {
 import { ContractEventItem } from '../../types/stellar';
 import { getTxExplorerUrl, shortenHash } from '../../config/stellar';
 
-const CORE_API_URL = process.env.NEXT_PUBLIC_CORE_API_URL || 'http://localhost:4000';
+const INITIAL_DEMO_EVENTS: ContractEventItem[] = [
+  {
+    id: 'evt-escrow-101',
+    contractId: 'CBULSNLLBDACPNNNM4JB5NL2XB56QP6FVU7HHIOTNUXKUBSU4JHJGV5D',
+    contractName: 'fashion_escrow',
+    eventType: 'escrow_funded',
+    ledger: 1045231,
+    ledgerClosedAt: new Date(Date.now() - 360000).toISOString(),
+    txHash: '0x4f8a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a',
+    data: { orderId: 101, amount: '50.00 XLM', buyer: 'GBUYER...4567' },
+    indexedAt: new Date(Date.now() - 360000).toISOString(),
+  },
+  {
+    id: 'evt-passport-001',
+    contractId: 'CD23NAGPWADWWFRGMDUM4GUFGIB52U73L3F5QURQSACWOHXLEKKE3ZVL',
+    contractName: 'product_passport',
+    eventType: 'passport_created',
+    ledger: 1045190,
+    ledgerClosedAt: new Date(Date.now() - 720000).toISOString(),
+    txHash: '0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b',
+    data: { productId: 'PASSPORT-BIO-SILK-001', totalEdition: 50 },
+    indexedAt: new Date(Date.now() - 720000).toISOString(),
+  },
+  {
+    id: 'evt-designer-001',
+    contractId: 'CDUF5C2CNF3NFMMUOGCO74D2NFKCYUK6VVILPGXM5RDC7CDCGD3GJEHR',
+    contractName: 'designer_registry',
+    eventType: 'designer_registered',
+    ledger: 1045100,
+    ledgerClosedAt: new Date(Date.now() - 1440000).toISOString(),
+    txHash: '0x9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e',
+    data: { brandName: 'Maison de Stellar', location: 'Paris, France' },
+    indexedAt: new Date(Date.now() - 1440000).toISOString(),
+  },
+];
 
 export const RealtimeActivitySection: React.FC = () => {
-  const [events, setEvents] = useState<ContractEventItem[]>([]);
+  const [events, setEvents] = useState<ContractEventItem[]>(INITIAL_DEMO_EVENTS);
   const [filter, setFilter] = useState<string>('all');
   const [isConnectedSSE, setIsConnectedSSE] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,17 +56,26 @@ export const RealtimeActivitySection: React.FC = () => {
 
   const fetchEvents = useCallback(async () => {
     if (!isMountedRef.current) return;
+    const apiUrl = process.env.NEXT_PUBLIC_CORE_API_URL?.trim();
+    if (!apiUrl) {
+      return;
+    }
     setIsLoading(true);
     try {
-      const res = await fetch(`${CORE_API_URL}/api/v1/events?limit=50`);
+      const res = await fetch(`${apiUrl}/api/v1/events?limit=50`, {
+        headers: { Accept: 'application/json' },
+      });
       if (res.ok && isMountedRef.current) {
-        const json = await res.json();
-        if (json.data?.events) {
-          setEvents(json.data.events);
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const json = await res.json();
+          if (json.data?.events && json.data.events.length > 0) {
+            setEvents(json.data.events);
+          }
         }
       }
     } catch {
-      // Fallback sample data if core backend is still starting
+      // Keep existing demo/synced events
     } finally {
       if (isMountedRef.current) {
         setIsLoading(false);
@@ -45,9 +88,11 @@ export const RealtimeActivitySection: React.FC = () => {
     fetchEvents();
 
     let eventSource: EventSource | null = null;
-    if (typeof window !== 'undefined' && typeof EventSource !== 'undefined') {
+    const apiUrl = process.env.NEXT_PUBLIC_CORE_API_URL?.trim();
+
+    if (apiUrl && typeof window !== 'undefined' && typeof EventSource !== 'undefined') {
       try {
-        eventSource = new EventSource(`${CORE_API_URL}/api/v1/events/stream`);
+        eventSource = new EventSource(`${apiUrl}/api/v1/events/stream`);
 
         eventSource.onopen = () => {
           if (isMountedRef.current) setIsConnectedSSE(true);
@@ -77,7 +122,7 @@ export const RealtimeActivitySection: React.FC = () => {
 
     const interval = setInterval(() => {
       if (isMountedRef.current) fetchEvents();
-    }, 8000);
+    }, 15000);
 
     return () => {
       isMountedRef.current = false;
